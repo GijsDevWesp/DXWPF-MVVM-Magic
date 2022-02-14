@@ -1,7 +1,7 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
-using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
+using System;
 
 namespace Webinar.ViewModels
 {
@@ -13,11 +13,14 @@ namespace Webinar.ViewModels
         protected TrackListViewModel()
         {
             Tracks = new TrackList();
+
+            ViewInjectionManager.Default
+                .RegisterNavigatedEventHandler(this, () => {
+                    ViewInjectionManager.Default.Navigate(Regions.Navigation, NavigationKey.Dashboard);
+                });
         }
-        public static TrackListViewModel Create()
-        {
-            return ViewModelSource.Create(() => new TrackListViewModel());
-        }
+
+        public static TrackListViewModel Create() { return ViewModelSource.Create(() => new TrackListViewModel()); }
 
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
         protected virtual IDocumentManagerService DocumentManagerService { get { return null; } }

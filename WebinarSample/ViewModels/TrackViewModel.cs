@@ -1,7 +1,7 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
-using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
+using System;
 using System.ComponentModel;
 
 namespace Webinar.ViewModels
@@ -11,45 +11,47 @@ namespace Webinar.ViewModels
     {
         private TrackInfo track;
 
-        //protected TrackViewModel()
-        //{
-        //    // for test purposes only !!
-        //    Track = new TrackList()[15];
-        //}
-        protected TrackViewModel() : this(new TrackList()[15]) { }
-        protected TrackViewModel(TrackInfo track)
-        {
-            if (track == null)
-                throw new ArgumentNullException("track", "track is null.");
-            Load(track);
-        }
-        public static TrackViewModel Create()
-        {
-            return ViewModelSource.Create(() => new TrackViewModel());
-        }
-        public static TrackViewModel Create(TrackInfo track)
-        {
-            return ViewModelSource.Create(() => new TrackViewModel(track));
-        }
-        public bool CanResetName()
-        {
-            return track != null && !String.IsNullOrEmpty(Name);
-        }
-        public void ResetName()
-        {
-            if (track != null)
-            {
-                if (MessageBoxService.ShowMessage("Are you sure you want to reset the Name value?",
-                                    "Question",
-                                    MessageButton.YesNo,
-                                    MessageIcon.Question,
-                                    MessageResult.No) == MessageResult.Yes)
-                    Name = "";
-            }
-        }
+        public virtual int TrackId { get; set; }
+
+        public virtual string Name { get; set; }
+
+        public virtual string Composer { get; set; }
 
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
         protected virtual IMessageBoxService MessageBoxService { get { return null; } }
+
+        protected TrackViewModel() : this(new TrackList()[15])
+        {
+        }
+
+        protected TrackViewModel(TrackInfo track)
+        {
+            if(track == null)
+                throw new ArgumentNullException("track", "track is null.");
+            Load(track);
+        }
+
+        public static TrackViewModel Create() { return ViewModelSource.Create(() => new TrackViewModel()); }
+
+        public static TrackViewModel Create(TrackInfo track)
+        { return ViewModelSource.Create(() => new TrackViewModel(track)); }
+
+        public bool CanResetName() { return track != null && !String.IsNullOrEmpty(Name); }
+
+        public void ResetName()
+        {
+            if(track != null)
+            {
+                if(MessageBoxService.ShowMessage(
+                        "Are you sure you want to reset the Name value?",
+                        "Question",
+                        MessageButton.YesNo,
+                        MessageIcon.Question,
+                        MessageResult.No) ==
+                    MessageResult.Yes)
+                    Name = string.Empty;
+            }
+        }
 
         private void Load(TrackInfo track)
         {
@@ -61,27 +63,19 @@ namespace Webinar.ViewModels
 
         void IEditableObject.BeginEdit()
         {
-
         }
 
         void IEditableObject.EndEdit()
         {
-            if (!string.Equals(Name, track.Name))
+            if(!string.Equals(Name, track.Name))
                 track.Name = Name;
-            if (!string.Equals(Composer, track.Composer))
+            if(!string.Equals(Composer, track.Composer))
                 track.Composer = Composer;
-            if (TrackId != track.TrackId)
+            if(TrackId != track.TrackId)
                 track.TrackId = TrackId;
         }
 
-        void IEditableObject.CancelEdit()
-        {
-            Load(this.track);
-        }
-
-        public virtual int TrackId { get; set; }
-        public virtual string Name { get; set; }
-        public virtual string Composer { get; set; }
+        void IEditableObject.CancelEdit() { Load(this.track); }
 
         public void Save() { ((IEditableObject)this).EndEdit(); }
         public void Revert() { ((IEditableObject)this).CancelEdit(); }

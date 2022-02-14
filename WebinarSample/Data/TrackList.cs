@@ -1,15 +1,15 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Collections;
-
 
 public class TrackList : ObservableCollection<TrackInfo>
 {
     public TrackList()
     {
         Add(new TrackInfo(1, "For Those About To Rock (We Salute You)", 1, 1, 1, "Angus Young, Malcolm Young, Brian Johnson", 343719, 11170334));
+        Add(new TrackInfo(2, "Time", 0, 1, 3, "Hans Zimmer", 2604000, 90000000));
         Add(new TrackInfo(3, "Fast As a Shark", 3, 2, 1, "F. Baltes, S. Kaufman, U. Dirkscneider & W. Hoffman", 230619, 3990994));
         Add(new TrackInfo(4, "Restless and Wild", 3, 2, 1, "F. Baltes, R.A. Smith-Diesel, S. Kaufman, U. Dirkscneider & W. Hoffman", 252051, 4331779));
         Add(new TrackInfo(5, "Princess of the Dawn", 3, 2, 1, "Deaffy & R.A. Smith-Diesel", 375418, 6290521));
@@ -2534,10 +2534,5 @@ public class TrackList : ObservableCollection<TrackInfo>
         Add(new TrackInfo(3501, "L'orfeo, Act 3, Sinfonia (Orchestra)", 345, 2, 24, "Claudio Monteverdi", 66639, 1189062));
         Add(new TrackInfo(3502, "Quintet for Horn, Violin, 2 Violas, and Cello in E Flat Major, K. 407/386c: III. Allegro", 346, 2, 24, "Wolfgang Amadeus Mozart", 221331, 3665114));
         Add(new TrackInfo(3503, "Koyaanisqatsi", 347, 2, 10, "Philip Glass", 206005, 3305164));
-    }
-
-    public IEnumerable<string> GetFieldNames()
-    {
-        return new string[] { "Name", "Population", "AreaKM2" };
     }
 }
