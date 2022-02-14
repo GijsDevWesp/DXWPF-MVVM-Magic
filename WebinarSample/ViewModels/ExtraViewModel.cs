@@ -37,12 +37,9 @@ namespace Webinar.ViewModels
 
         public void IconLeftClick() { MessageBoxService.ShowMessage("test berichtje", "Error", MessageButton.OK); }
 
-        public void ShowCustomNotification()
+        public void ShowNotification()
         {
-            CustomNotificationViewModel vm = ViewModelSource.Create(() => new CustomNotificationViewModel());
-            vm.Caption = $"Time: {DateTime.Now}";
-            vm.Content = "Custom Notificatie je kan typen wat je wilt 123";
-            INotification notification = CustomNotificationService.CreateCustomNotification(vm);
+            INotification notification = CustomNotificationService.CreatePredefinedNotification($"Time: {DateTime.Now}", "Custom Notificatie je kan typen wat je wilt 123", string.Empty);
             notification.ShowAsync();
         }
     }

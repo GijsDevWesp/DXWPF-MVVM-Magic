@@ -9,35 +9,9 @@
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ViewModels="clr-namespace:Webinar.ViewModels"
+    xmlns:local="clr-namespace:Webinar"
     mc:Ignorable="d"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type ViewModels:ExtraViewModel}}">
-    <UserControl.Resources>
-        <DataTemplate x:Key="CustomNotificationTemplate">
-            <Border
-                Background="White"
-                BorderBrush="Black"
-                BorderThickness="1">
-                <StackPanel
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Orientation="Vertical">
-                    <TextBlock
-                        Margin="5"
-                        HorizontalAlignment="Left"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Foreground="Blue"
-                        Text="{Binding Caption}" />
-                    <TextBlock
-                        Margin="3"
-                        HorizontalAlignment="Center"
-                        FontSize="16"
-                        Foreground="Black"
-                        Text="{Binding Content}" />
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-    </UserControl.Resources>
     <dxmvvm:Interaction.Behaviors>
         <dx:DXMessageBoxService />
         <dx:NotifyIconService Icon="{dx:DXImage 'Images/XAF/State_Validation_Warning_48x48.png'}" LeftClickCommand="{Binding IconLeftClickCommand}">
@@ -49,7 +23,7 @@
                                 <TextBlock FontSize="10" Text="hoi" />
                             </DataTemplate>
                         </dxb:BarItemMenuHeader.ContentTemplate>
-                        <dxb:BarButtonItem Content="knoppie? geen commando" />
+                        <dxb:BarButtonItem Content="knoppie" Command="{Binding IconLeftClickCommand}" />
                         <dxb:BarItemSeparator />
                         <dxb:BarButtonItem Content="Cancel" Glyph="{dx:DXImage Image=Delete_16x16.png}" />
                         <!--<dxb:BarButtonItem Content="Aardbei"  Command="{Binding AboutCommand}" Glyph="{dx:DXImage Image=Information_16x16.png}"/>-->
@@ -58,9 +32,15 @@
             </dx:NotifyIconService.ContextMenu>
         </dx:NotifyIconService>
         <dxmvvm:NotificationService
-            x:Name="notificationService"
-            CustomNotificationPosition="BottomRight"
-            CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}">
+            PredefinedNotificationTemplate="LongText"
+            UseWin8NotificationsIfAvailable="True"
+            ApplicationActivator="{x:Type local:CustomNotificationActivator}"
+            CreateApplicationShortcut="False"
+            ApplicationName="{x:Static local:MainWindow.ApplicationName}"
+            CustomNotificationDuration="00:00:10">
+            <dxmvvm:NotificationService.ApplicationId>
+                <Binding Source="{x:Static local:MainWindow.ApplicationID}" />
+            </dxmvvm:NotificationService.ApplicationId>
         </dxmvvm:NotificationService>
     </dxmvvm:Interaction.Behaviors>
     <Grid>
@@ -89,7 +69,7 @@
         <Button 
 Height="20px"
             Grid.Row="1"
-        Command="{Binding ShowCustomNotificationCommand}"
+        Command="{Binding ShowNotificationCommand}"
             Content="Custom notificatie"/>
     </Grid>
 </UserControl>

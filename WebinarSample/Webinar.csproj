@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomNotificationActivator.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ViewModels\CustomNotificationViewModel.cs" />
     <Compile Include="Views\ExtraView.xaml.cs">
