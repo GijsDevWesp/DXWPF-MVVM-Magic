@@ -35,7 +35,11 @@ namespace Webinar.ViewModels
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
         protected virtual INotificationService CustomNotificationService { get { return null; } }
 
-        public void IconLeftClick() { MessageBoxService.ShowMessage("test berichtje", "Error", MessageButton.OK); }
+        public void ShowErrorMessage()
+        {
+            MessageBoxService.ShowMessage("Er heeft een fout plaatsgevonden, zie chart", "Error", MessageButton.OK);
+            ViewInjectionManager.Default.Navigate(Regions.Navigation, NavigationKey.Chart);
+        }
 
         public void ShowNotification()
         {

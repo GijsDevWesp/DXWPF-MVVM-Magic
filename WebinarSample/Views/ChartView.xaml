@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<UserControl xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
     x:Class="Webinar.ViewModels.ChartView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,8 +6,38 @@
     xmlns:dx="http://schemas.microsoft.com/winfx/2008/core"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ViewModels="clr-namespace:Webinar.ViewModels">
+    xmlns:ViewModels="clr-namespace:Webinar.ViewModels"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type ViewModels:ChartViewModel}}">
     <Grid>
-        <TextBlock Text="{Binding Title}" />
+        <dxc:ChartControl Name="ChartControl">
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D SeriesItemsSource="{Binding Data}">
+                    <dxc:XYDiagram2D.SeriesItemTemplate>
+                        <DataTemplate>
+                            <dxc:BarSideBySideSeries2D DisplayName="{Binding Name}" 
+                                               DataSource="{Binding Values}"
+                                               ArgumentDataMember="Argument"
+                                               ValueDataMember="Value" 
+                                               BarWidth="0.6">
+                                <dxc:BarSideBySideSeries2D.Model>
+                                    <dxc:BorderlessSimpleBar2DModel/>
+                                </dxc:BarSideBySideSeries2D.Model>
+                            </dxc:BarSideBySideSeries2D>
+                        </DataTemplate>
+                    </dxc:XYDiagram2D.SeriesItemTemplate>
+                    <dxc:XYDiagram2D.AxisX>
+                        <dxc:AxisX2D>
+                            <dxc:AxisX2D.DateTimeScaleOptions>
+                                <dxc:ManualDateTimeScaleOptions MeasureUnit="Year" GridAlignment="Year" 
+                                                                AutoGrid="False" GridSpacing="1"/>
+                            </dxc:AxisX2D.DateTimeScaleOptions>
+                        </dxc:AxisX2D>
+                    </dxc:XYDiagram2D.AxisX>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+            <dxc:ChartControl.Legends>
+                <dxc:Legend HorizontalPosition="Right"/>
+            </dxc:ChartControl.Legends>
+        </dxc:ChartControl>
     </Grid>
 </UserControl>

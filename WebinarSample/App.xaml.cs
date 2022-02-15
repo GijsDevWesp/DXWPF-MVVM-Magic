@@ -51,7 +51,7 @@ namespace Webinar
                 .Inject(Regions.Content,
                 NavigationKey.Extra,
                 () => ExtraViewModel.Create(),
-                typeof(Views.ExtraView));
+                typeof(ExtraView));
             ViewInjectionManager.Default
                 .Inject(Regions.Navigation,
                 NavigationKey.Extra,

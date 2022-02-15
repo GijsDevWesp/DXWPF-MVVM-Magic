@@ -9,19 +9,21 @@
              xmlns:main="clr-namespace:Webinar"
              mc:Ignorable="d" >
     <Grid>
-        <DockPanel LastChildFill="True">
-            <dxnav:TileBar x:Name="tileBar" VerticalAlignment="Top" DockPanel.Dock="Top">
-                <dxmvvm:Interaction.Behaviors>
-                    <dxmvvm:ViewInjectionService RegionName="{x:Static main:Regions.Navigation }" />
-                </dxmvvm:Interaction.Behaviors>
-            </dxnav:TileBar>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <dxnav:TileBar x:Name="tileBar" VerticalAlignment="Top" DockPanel.Dock="Top">
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:ViewInjectionService RegionName="{x:Static main:Regions.Navigation }" />
+            </dxmvvm:Interaction.Behaviors>
+        </dxnav:TileBar>
 
-            <dxwui:FlipView x:Name="flipView">
-                <dxmvvm:Interaction.Behaviors>
-                    <dxmvvm:ViewInjectionService RegionName="{x:Static main:Regions.Content }" />
-                </dxmvvm:Interaction.Behaviors>
-            </dxwui:FlipView>
-        </DockPanel>
+        <dxwui:FlipView x:Name="flipView" Grid.Row="1" Padding="10px">
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:ViewInjectionService RegionName="{x:Static main:Regions.Content }" />
+            </dxmvvm:Interaction.Behaviors>
+        </dxwui:FlipView>
     </Grid>
 
 </UserControl>
