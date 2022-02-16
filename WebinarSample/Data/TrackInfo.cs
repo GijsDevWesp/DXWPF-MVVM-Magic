@@ -1,13 +1,15 @@
 using System;
 using System.ComponentModel;
+using Webinar.DAL;
 
 public class TrackInfo : INotifyPropertyChanged
 {
+    private readonly int _id;
     public TrackInfo() { }
-    public TrackInfo(int trackId, string name, int albumId, int mediaTypeId,
-                        int genreId, string composer, double milliseconds, double bytes)
+    public TrackInfo(int id, string name, int? albumId, int mediaTypeId,
+                        int? genreId, string composer, int milliseconds, int? bytes)
     {
-        TrackId = trackId;
+        _id = id;
         Name = name;
         AlbumId = albumId;
         MediaTypeId = mediaTypeId;
@@ -15,19 +17,6 @@ public class TrackInfo : INotifyPropertyChanged
         Composer = composer;
         Milliseconds = milliseconds;
         Bytes = bytes;
-    }
-
-    int trackId;
-    public int TrackId
-    {
-        get { return trackId; }
-        set
-        {
-            if (trackId == value)
-                return;
-            trackId = value;
-            OnPropertyChanged("TrackId");
-        }
     }
 
     string name;
@@ -42,8 +31,8 @@ public class TrackInfo : INotifyPropertyChanged
             OnPropertyChanged("Name");
         }
     }
-    int albumId;
-    public int AlbumId
+    int? albumId;
+    public int? AlbumId
     {
         get { return albumId; }
         set
@@ -66,8 +55,8 @@ public class TrackInfo : INotifyPropertyChanged
             OnPropertyChanged("MediaTypeId");
         }
     }
-    int genreId;
-    public int GenreId
+    int? genreId;
+    public int? GenreId
     {
         get { return genreId; }
         set
@@ -90,8 +79,8 @@ public class TrackInfo : INotifyPropertyChanged
             OnPropertyChanged("Composer");
         }
     }
-    double milliseconds;
-    public double Milliseconds
+    int milliseconds;
+    public int Milliseconds
     {
         get { return milliseconds; }
         set
@@ -102,8 +91,8 @@ public class TrackInfo : INotifyPropertyChanged
             OnPropertyChanged("Milliseconds");
         }
     }
-    double bytes;
-    public double Bytes
+    int? bytes;
+    public int? Bytes
     {
         get { return bytes; }
         set
@@ -115,8 +104,6 @@ public class TrackInfo : INotifyPropertyChanged
         }
     }
 
-
-
     public override string ToString()
     {
         return String.Format("Name: {0}, Milliseconds: {1}, Composer: {2}",
@@ -127,6 +114,16 @@ public class TrackInfo : INotifyPropertyChanged
 
     protected virtual void OnPropertyChanged(string propertyName)
     {
+        var trackRepo = new TrackRepository();
+        var t = trackRepo.GetById(_id);
+        if (t != null)
+        {
+            t.Name = Name;
+            t.Composer = Composer;
+            t.Milliseconds = Milliseconds;
+            t.Bytes = Bytes;
+            trackRepo.Update(t);
+        }
         var handler = PropertyChanged;
         if (handler != null)
             handler(this, new PropertyChangedEventArgs(propertyName));

@@ -17,12 +17,12 @@ namespace Webinar.ViewModels
 
         public virtual string Composer { get; set; }
 
+        public virtual int Milliseconds { get; set; }
+
+        public virtual int? Bytes { get; set; }
+
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
         protected virtual IMessageBoxService MessageBoxService { get { return null; } }
-
-        protected TrackViewModel() : this(new TrackList()[15])
-        {
-        }
 
         protected TrackViewModel(TrackInfo track)
         {
@@ -31,7 +31,12 @@ namespace Webinar.ViewModels
             Load(track);
         }
 
-        public static TrackViewModel Create() { return ViewModelSource.Create(() => new TrackViewModel()); }
+        protected TrackViewModel()
+        {
+
+        }
+
+        public static TrackViewModel Create() { return ViewModelSource.Create(() => new TrackViewModel(new TrackInfo())); }
 
         public static TrackViewModel Create(TrackInfo track)
         { return ViewModelSource.Create(() => new TrackViewModel(track)); }
@@ -56,9 +61,10 @@ namespace Webinar.ViewModels
         private void Load(TrackInfo track)
         {
             this.track = track;
-            this.TrackId = track.TrackId;
             this.Name = track.Name;
             this.Composer = track.Composer;
+            this.Milliseconds = track.Milliseconds;
+            this.Bytes = track.Bytes;
         }
 
         void IEditableObject.BeginEdit()
@@ -71,8 +77,6 @@ namespace Webinar.ViewModels
                 track.Name = Name;
             if(!string.Equals(Composer, track.Composer))
                 track.Composer = Composer;
-            if(TrackId != track.TrackId)
-                track.TrackId = TrackId;
         }
 
         void IEditableObject.CancelEdit() { Load(this.track); }

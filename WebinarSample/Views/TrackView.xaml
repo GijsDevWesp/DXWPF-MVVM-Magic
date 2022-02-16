@@ -17,8 +17,9 @@
             <dxb:BarButtonItem Content="Save" Command="{Binding SaveCommand}"/>
             <dxb:BarButtonItem Content="Cancel" Command="{Binding RevertCommand}"/>
         </dxb:ToolBarControl>
-        <dxe:TextEdit Text="{Binding TrackId}" />
-        <dxe:TextEdit Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-        <dxe:TextEdit Text="{Binding Composer}" />
+        <dxe:TextEdit Width="150" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+        <dxe:TextEdit Width="150" Text="{Binding Composer, UpdateSourceTrigger=PropertyChanged}" />
+        <dxe:TextEdit Width="150" Text="{Binding Milliseconds, UpdateSourceTrigger=PropertyChanged}" />
+        <dxe:TextEdit Width="150" Text="{Binding Bytes, UpdateSourceTrigger=PropertyChanged}" />
     </StackPanel>
 </UserControl>
