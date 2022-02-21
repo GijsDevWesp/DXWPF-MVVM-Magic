@@ -4,7 +4,7 @@
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
         xmlns:Views="clr-namespace:Webinar.Views"
-        Title="Main Window" MaxHeight="1920" MaxWidth="1080" WindowStartupLocation="CenterScreen">
+        Title="Control Center" MaxHeight="1920" MaxWidth="1080" WindowStartupLocation="CenterScreen">
     <Grid>
         <Views:MainView></Views:MainView>
     </Grid>

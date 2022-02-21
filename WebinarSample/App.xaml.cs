@@ -1,4 +1,6 @@
 ﻿using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
+using System;
 using System.Windows;
 using Webinar.ViewModels;
 using Webinar.Views;
@@ -12,7 +14,15 @@ namespace Webinar
     {
         private void OnAppStartup_UpdateThemeName(object sender, StartupEventArgs e)
         {
-            DevExpress.Xpf.Core.ApplicationThemeHelper.UpdateApplicationThemeName();
+            ApplicationThemeHelper.ApplicationThemeName = Theme.DefaultThemeName;
+            var splashScreenViewModel = new DXSplashScreenViewModel() { 
+                Title = "Control Center",
+                IsIndeterminate = true,
+                Subtitle = "Powered by DevExpress",
+                Copyright = "© WESP automotive",
+                Logo = new Uri("../../Images/wesp-logo-transparant.png", UriKind.Relative)
+            };
+            SplashScreenManager.Create(() => new CustomSplashScreen(), splashScreenViewModel).ShowOnStartup();
             InitViewInjection();
         }
 
