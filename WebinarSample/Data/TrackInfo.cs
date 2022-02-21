@@ -19,87 +19,93 @@ public class TrackInfo : INotifyPropertyChanged
         Bytes = bytes;
     }
 
-    string name;
+    private string _name;
     public string Name
     {
-        get { return name; }
+        get { return _name; }
         set
         {
-            if (name == value)
+            if (_name == value)
                 return;
-            name = value;
+            _name = value;
             OnPropertyChanged("Name");
         }
     }
-    int? albumId;
+
+    private int? _albumId;
     public int? AlbumId
     {
-        get { return albumId; }
+        get { return _albumId; }
         set
         {
-            if (albumId == value)
+            if (_albumId == value)
                 return;
-            albumId = value;
+            _albumId = value;
             OnPropertyChanged("AlbumId");
         }
     }
-    int mediaTypeId;
+
+    private int _mediaTypeId;
     public int MediaTypeId
     {
-        get { return mediaTypeId; }
+        get { return _mediaTypeId; }
         set
         {
-            if (mediaTypeId == value)
+            if (_mediaTypeId == value)
                 return;
-            mediaTypeId = value;
+            _mediaTypeId = value;
             OnPropertyChanged("MediaTypeId");
         }
     }
-    int? genreId;
+
+    private int? _genreId;
     public int? GenreId
     {
-        get { return genreId; }
+        get { return _genreId; }
         set
         {
-            if (genreId == value)
+            if (_genreId == value)
                 return;
-            genreId = value;
+            _genreId = value;
             OnPropertyChanged("GenreId");
         }
     }
-    string composer;
+
+    private string _composer;
     public string Composer
     {
-        get { return composer; }
+        get { return _composer; }
         set
         {
-            if (composer == value)
+            if (_composer == value)
                 return;
-            composer = value;
+            _composer = value;
             OnPropertyChanged("Composer");
         }
     }
-    int milliseconds;
+
+    private int _milliseconds;
     public int Milliseconds
     {
-        get { return milliseconds; }
+        get { return _milliseconds; }
         set
         {
-            if (milliseconds == value)
+            if (_milliseconds == value)
                 return;
-            milliseconds = value;
+            _milliseconds = value;
             OnPropertyChanged("Milliseconds");
         }
     }
-    int? bytes;
+
+    private int? _bytes;
     public int? Bytes
     {
-        get { return bytes; }
+        get { return _bytes; }
         set
         {
-            if (bytes == value)
+            if (_bytes == value)
                 return;
-            bytes = value;
+            _bytes = value;
             OnPropertyChanged("Bytes");
         }
     }

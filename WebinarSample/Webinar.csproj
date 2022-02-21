@@ -83,7 +83,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CustomNotificationActivator.cs" />
     <Compile Include="DAL\Album.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -135,6 +134,7 @@
     </Compile>
     <Compile Include="DAL\TrackRepository.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="ViewModels\CustomNotificationViewModel.cs" />
     <Compile Include="Views\ExtraView.xaml.cs">
       <DependentUpon>ExtraView.xaml</DependentUpon>
     </Compile>
