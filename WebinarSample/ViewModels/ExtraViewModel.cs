@@ -75,8 +75,10 @@ namespace Webinar.ViewModels
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
         protected virtual IMessageBoxService MessageBoxService { get { return null; } }
 
-        [ServiceProperty(Key = "ServiceWithCustomNotifications")]
-        protected virtual INotificationService CustomNotificationService { get { return null; } }
+        //[ServiceProperty(Key = "ServiceWithCustomNotifications")]
+        //protected virtual INotificationService CustomNotificationService { get { return null; } }
+        [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
+        protected virtual INotificationService NotificationService { get { return null; } }
 
         public void ShowErrorMessage()
         {
@@ -86,7 +88,8 @@ namespace Webinar.ViewModels
 
         public void ShowNotification()
         {
-
+            INotification notification = NotificationService.CreatePredefinedNotification("WESP Control Center", "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit", string.Format("Tijd die eronder ook al staat: {0}", DateTime.Now));
+            notification.ShowAsync().ContinueWith(OnNotificationClicked, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         //public void ShowCustomNotification()
@@ -95,18 +98,18 @@ namespace Webinar.ViewModels
         //    vm.Caption = "Custom Notificatie titel";
         //    vm.Content = "Er is een probleem in ...";
         //    vm.Time = String.Format("Tijd: {0}", DateTime.Now);
-            
+
         //    INotification notification = CustomNotificationService.CreateCustomNotification(vm);
-        //    notification.ShowAsync().ContinueWith(OnNotificationShown, TaskScheduler.FromCurrentSynchronizationContext());
+        //    notification.ShowAsync().ContinueWith(OnNotificationClicked, TaskScheduler.FromCurrentSynchronizationContext());
         //}
 
-        //private void OnNotificationShown(Task<NotificationResult> task)
-        //{
-        //    if (task.Result == NotificationResult.Activated)
-        //    {
-        //        ViewInjectionManager.Default.Navigate(Regions.Navigation, NavigationKey.Chart);
-        //    }
-        //}
+        private void OnNotificationClicked(Task<NotificationResult> task)
+        {
+            if (task.Result == NotificationResult.Activated)
+            {
+                ViewInjectionManager.Default.Navigate(Regions.Navigation, NavigationKey.Chart);
+            }
+        }
 
         private async void LoadTracks() {
             IsWaitIndicatorVisible = true;
