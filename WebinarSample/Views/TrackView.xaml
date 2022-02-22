@@ -6,7 +6,7 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:ViewModels="clr-namespace:Webinar.ViewModels"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"  x:Class="Webinar.Views.TrackView"
              mc:Ignorable="d"
-             DataContext="{dxmvvm:ViewModelSource Type={x:Type ViewModels:TrackViewModel}}"
+             DataContext="{dxmvvm:ViewModelSource Type=ViewModels:TrackViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <dxmvvm:Interaction.Behaviors>
         <dx:DXMessageBoxService/>
@@ -20,6 +20,6 @@
         <dxe:TextEdit Width="150" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
         <dxe:TextEdit Width="150" Text="{Binding Composer, UpdateSourceTrigger=PropertyChanged}" />
         <dxe:TextEdit Width="150" Text="{Binding Milliseconds, UpdateSourceTrigger=PropertyChanged}" />
-        <dxe:TextEdit Width="150" Text="{Binding Bytes, UpdateSourceTrigger=PropertyChanged}" />
+        <dxe:TextEdit Width="150" Text="{Binding Bytes}" />
     </StackPanel>
 </UserControl>

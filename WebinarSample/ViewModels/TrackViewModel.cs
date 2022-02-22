@@ -3,13 +3,14 @@ using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
 using System;
 using System.ComponentModel;
+using Webinar.DAL;
 
 namespace Webinar.ViewModels
 {
     [POCOViewModel]
     public class TrackViewModel : IEditableObject
     {
-        private TrackInfo track;
+        private Track track;
 
         public virtual int TrackId { get; set; }
 
@@ -24,7 +25,7 @@ namespace Webinar.ViewModels
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
         protected virtual IMessageBoxService MessageBoxService { get { return null; } }
 
-        protected TrackViewModel(TrackInfo track)
+        protected TrackViewModel(Track track)
         {
             if(track == null)
                 throw new ArgumentNullException("track", "track is null.");
@@ -36,10 +37,12 @@ namespace Webinar.ViewModels
 
         }
 
-        public static TrackViewModel Create() { return ViewModelSource.Create(() => new TrackViewModel(new TrackInfo())); }
+        public static TrackViewModel Create() { return ViewModelSource.Create(() => new TrackViewModel()); }
 
-        public static TrackViewModel Create(TrackInfo track)
-        { return ViewModelSource.Create(() => new TrackViewModel(track)); }
+        public static TrackViewModel Create(Track track)
+        { 
+            return ViewModelSource.Create(() => new TrackViewModel(track)); 
+        }
 
         public bool CanResetName() { return track != null && !String.IsNullOrEmpty(Name); }
 
@@ -58,13 +61,14 @@ namespace Webinar.ViewModels
             }
         }
 
-        private void Load(TrackInfo track)
+        private void Load(Track track)
         {
             this.track = track;
-            this.Name = track.Name;
-            this.Composer = track.Composer;
-            this.Milliseconds = track.Milliseconds;
-            this.Bytes = track.Bytes;
+            TrackId = track.TrackId;
+            Name = track.Name;
+            Composer = track.Composer;
+            Milliseconds = track.Milliseconds;
+            Bytes = track.Bytes;
         }
 
         void IEditableObject.BeginEdit()

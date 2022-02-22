@@ -1,7 +1,7 @@
-﻿using DevExpress.Mvvm;
+﻿using System.Collections.ObjectModel;
+using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
-using System;
 using Webinar.DAL;
 
 namespace Webinar.ViewModels
@@ -9,11 +9,14 @@ namespace Webinar.ViewModels
     [POCOViewModel]
     public class TrackListViewModel
     {
-        public virtual TrackList Tracks { get; set; }
+        public virtual ObservableCollection<TrackViewModel> Tracks { get; set; } = new ObservableCollection<TrackViewModel>();
 
         protected TrackListViewModel()
         {
-            Tracks = new TrackList();
+            foreach (var track in TrackRepository.Instance.GetAll())
+            {
+                Tracks.Add(TrackViewModel.Create(track));
+            }
 
             ViewInjectionManager.Default
                 .RegisterNavigatedEventHandler(this, () => {
@@ -26,25 +29,22 @@ namespace Webinar.ViewModels
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
         protected virtual IDocumentManagerService DocumentManagerService { get { return null; } }
 
-        public void EditTrack(object trackObject)
+        public void EditTrack(TrackViewModel trackVM)
         {
-            var track = trackObject as TrackInfo;
-            var document = DocumentManagerService.CreateDocument("TrackView", TrackViewModel.Create(track));
+            var document = DocumentManagerService.CreateDocument("TrackView", trackVM);
             document.Show();
         }
 
-        public bool CanDeleteRow(object currentItem)
+        public bool CanDeleteRow(TrackViewModel currentItem)
         {
-            return currentItem != null;
+            return currentItem != null && currentItem.TrackId != 0;
         }
 
-        public void DeleteRow(object currentItem)
+        public void DeleteRow(TrackViewModel currentItem)
         {
-            var track = currentItem as TrackInfo;
-            Tracks.Remove(track);
+            Tracks.Remove(currentItem);
 
-            TrackRepository tracks = new TrackRepository();
-            tracks.Delete(track.Id);
+            TrackRepository.Instance.Delete(currentItem.TrackId);
         }
     }
 }

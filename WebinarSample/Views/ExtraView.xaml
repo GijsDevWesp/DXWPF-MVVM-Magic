@@ -25,7 +25,8 @@
     </UserControl.Resources>-->
     <dxmvvm:Interaction.Behaviors>
         <dx:DXMessageBoxService />
-        <dx:NotifyIconService Icon="{dx:DXImage 'Images/XAF/State_Validation_Warning_48x48.png'}" LeftClickCommand="{Binding ShowErrorMessageCommand}">
+        
+        <!--<dx:NotifyIconService Icon="{dx:DXImage 'Images/XAF/State_Validation_Warning_48x48.png'}" LeftClickCommand="{Binding ShowErrorMessageCommand}">
             <dx:NotifyIconService.ContextMenu>
                 <dxb:PopupMenu>
                     <dxb:BarItemMenuHeader Content="NotifyIconService's Menu ">
@@ -37,11 +38,11 @@
                         <dxb:BarButtonItem Content="Zie foutmelding" Command="{Binding ShowErrorMessageCommand}" />
                         <dxb:BarItemSeparator />
                         <dxb:BarButtonItem Content="Cancel" Glyph="{dx:DXImage Image=Delete_16x16.png}" />
-                        <!--<dxb:BarButtonItem Content="Aardbei"  Command="{Binding AboutCommand}" Glyph="{dx:DXImage Image=Information_16x16.png}"/>-->
                     </dxb:BarItemMenuHeader>
                 </dxb:PopupMenu>
             </dx:NotifyIconService.ContextMenu>
-        </dx:NotifyIconService>
+        </dx:NotifyIconService>-->
+        
         <!--<dxmvvm:NotificationService x:Name="ServiceWithCustomNotifications" CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"/>-->
         <dxmvvm:NotificationService 
             x:Name="notificationService"

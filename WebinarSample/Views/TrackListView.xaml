@@ -5,7 +5,7 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:ViewModels="clr-namespace:Webinar.ViewModels"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" x:Class="Webinar.Views.TrackListView"
              mc:Ignorable="d"
-             DataContext="{dxmvvm:ViewModelSource Type={x:Type ViewModels:TrackListViewModel}}">
+             DataContext="{dxmvvm:ViewModelSource Type=ViewModels:TrackListViewModel}">
     <dxmvvm:Interaction.Behaviors>
         <dx:WindowedDocumentUIService>
             <dx:WindowedDocumentUIService.WindowStyle>
@@ -22,7 +22,11 @@
     </UserControl.InputBindings>
 
     <Grid>
-        <dxg:GridControl x:Name="grid" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" ItemsSource="{Binding Tracks}">
+        <dxg:GridControl x:Name="grid" EnableSmartColumnsGeneration="False" ItemsSource="{Binding Tracks}">
+            <dxg:GridColumn FieldName="Name" IsSmart="True" ReadOnly="True" Header="Titel" Width="*" />
+            <dxg:GridColumn FieldName="Composer" IsSmart="True" ReadOnly="True" Header="Artiest" Width="*" />
+            <dxg:GridColumn FieldName="Milliseconds" IsSmart="True" ReadOnly="True" Header="Lengte (ms)" />
+            <dxg:GridColumn FieldName="Bytes" IsSmart="True" ReadOnly="True" Header="Grootte (bytes)" />
             <dxg:GridControl.View>
                 <dxg:TableView AllowPerPixelScrolling="True" ShowTotalSummary="True" AllowEditing="False">
                     <dxmvvm:Interaction.Behaviors>

@@ -1,17 +1,19 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
-using DevExpress.Xpf.Core;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
+using Webinar.DAL;
 
 namespace Webinar.ViewModels
 {
     [POCOViewModel]
     public class ExtraViewModel : INotifyPropertyChanged
     {
-        public virtual TrackList Tracks { get; set; }
+        public virtual ObservableCollection<TrackViewModel> Tracks { get; set; } = new ObservableCollection<TrackViewModel>();
 
         public virtual string Title { get; set; }
 
@@ -48,8 +50,9 @@ namespace Webinar.ViewModels
 
         protected ExtraViewModel()
         {
-            Title = "Extra";
             WaitIndicatorText = "Bezig met het laden van data";
+            IsWaitIndicatorVisible = true;
+            Title = "Extra";
             LoadTracks();
 
             ViewInjectionManager.Default
@@ -69,8 +72,8 @@ namespace Webinar.ViewModels
 
         public static ExtraViewModel Create() { return ViewModelSource.Create(() => new ExtraViewModel()); }
 
-        [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
-        protected virtual INotifyIconService NotificationIconService { get { return null; } }
+        //[ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
+        //protected virtual INotifyIconService NotificationIconService { get { return null; } }
 
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
         protected virtual IMessageBoxService MessageBoxService { get { return null; } }
@@ -112,12 +115,16 @@ namespace Webinar.ViewModels
         }
 
         private async void LoadTracks() {
-            IsWaitIndicatorVisible = true;
-            Task task = Task.Factory.StartNew(() =>
+            var tracks = TrackRepository.Instance.GetAll();
+            
+            await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                Tracks = new TrackList();
-            });
-            await task;
+                foreach (var track in tracks)
+                {
+                    Tracks.Add(TrackViewModel.Create(track));
+                }
+            }));
+            
             IsWaitIndicatorVisible = false;
         }
 

@@ -5,6 +5,28 @@ namespace Webinar.DAL
 {
     public class TrackRepository : IRepository<Track>
     {
+        private static TrackRepository _instance = null;
+        private static readonly object _instanceLock = new object();
+
+        public static TrackRepository Instance
+        {
+            get {
+                lock (_instanceLock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new TrackRepository();
+                    }
+                    return _instance;
+                }
+            }
+        }
+
+        protected TrackRepository()
+        {
+
+        }
+
         public IEnumerable<Track> GetAll()
         {
             using (var context = new ChinookEntities())
