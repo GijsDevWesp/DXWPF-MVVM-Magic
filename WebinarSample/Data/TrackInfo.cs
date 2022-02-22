@@ -19,6 +19,8 @@ public class TrackInfo : INotifyPropertyChanged
         Bytes = bytes;
     }
 
+    public int Id { get { return _id; } }
+
     private string _name;
     public string Name
     {

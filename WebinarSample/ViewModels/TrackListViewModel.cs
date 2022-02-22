@@ -2,6 +2,7 @@
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
 using System;
+using Webinar.DAL;
 
 namespace Webinar.ViewModels
 {
@@ -30,6 +31,20 @@ namespace Webinar.ViewModels
             var track = trackObject as TrackInfo;
             var document = DocumentManagerService.CreateDocument("TrackView", TrackViewModel.Create(track));
             document.Show();
+        }
+
+        public bool CanDeleteRow(object currentItem)
+        {
+            return currentItem != null;
+        }
+
+        public void DeleteRow(object currentItem)
+        {
+            var track = currentItem as TrackInfo;
+            Tracks.Remove(track);
+
+            TrackRepository tracks = new TrackRepository();
+            tracks.Delete(track.Id);
         }
     }
 }
