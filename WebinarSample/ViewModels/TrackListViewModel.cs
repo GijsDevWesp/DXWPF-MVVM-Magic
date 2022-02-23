@@ -31,6 +31,7 @@ namespace Webinar.ViewModels
 
         public void EditTrack(TrackViewModel trackVM)
         {
+            trackVM.SetParentViewModel(this);
             var document = DocumentManagerService.CreateDocument("TrackView", trackVM);
             document.Show();
         }

@@ -17,9 +17,9 @@
         </dx:WindowedDocumentUIService>
     </dxmvvm:Interaction.Behaviors>
 
-    <UserControl.InputBindings>
+    <!--<UserControl.InputBindings>
         <KeyBinding Command="{Binding DeleteRowCommand}" Key="Delete" CommandParameter="{Binding CurrentItem, ElementName=grid}"></KeyBinding>
-    </UserControl.InputBindings>
+    </UserControl.InputBindings>-->
 
     <Grid>
         <dxg:GridControl x:Name="grid" EnableSmartColumnsGeneration="False" ItemsSource="{Binding Tracks}">

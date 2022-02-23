@@ -8,7 +8,7 @@ using Webinar.DAL;
 namespace Webinar.ViewModels
 {
     [POCOViewModel]
-    public class TrackViewModel : IEditableObject
+    public class TrackViewModel : IEditableObject, ISupportParentViewModel
     {
         private Track track;
 
@@ -24,6 +24,9 @@ namespace Webinar.ViewModels
 
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
         protected virtual IMessageBoxService MessageBoxService { get { return null; } }
+        protected virtual ICurrentWindowService CurrentWindowService { get { return null; } }
+
+        public object ParentViewModel { get; set; }
 
         protected TrackViewModel(Track track)
         {
@@ -48,9 +51,9 @@ namespace Webinar.ViewModels
 
         public void ResetName()
         {
-            if(track != null)
+            if (track != null)
             {
-                if(MessageBoxService.ShowMessage(
+                if (MessageBoxService.ShowMessage(
                         "Are you sure you want to reset the Name value?",
                         "Question",
                         MessageButton.YesNo,
@@ -87,5 +90,33 @@ namespace Webinar.ViewModels
 
         public void Save() { ((IEditableObject)this).EndEdit(); }
         public void Revert() { ((IEditableObject)this).CancelEdit(); }
+
+        public bool CanDelete()
+        {
+            return track != null && track.TrackId != 0;
+        }
+
+        public void Delete()
+        {
+            if (MessageBoxService.ShowMessage(
+                "Are you sure you want to reset the Name value?",
+                "Question",
+                MessageButton.YesNo,
+                MessageIcon.Question,
+                MessageResult.No) ==
+                MessageResult.Yes)
+            {
+                if (ParentViewModel != null)
+                {
+                    var parent = ParentViewModel as TrackListViewModel;
+                    parent.DeleteRow(this);
+                    CurrentWindowService.Close();
+                }
+                else
+                {
+                    throw new InvalidOperationException("Parent View Model not found");
+                }
+            }
+        }
     }
 }
