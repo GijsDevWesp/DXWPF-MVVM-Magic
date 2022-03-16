@@ -56,7 +56,8 @@ namespace Webinar.ViewModels
             LoadTracks();
 
             ViewInjectionManager.Default
-                .RegisterNavigatedEventHandler(this, () => {
+                .RegisterNavigatedEventHandler(this, () =>
+                {
                     ViewInjectionManager.Default.Navigate(Regions.Navigation, NavigationKey.Extra);
                 });
         }
@@ -91,7 +92,7 @@ namespace Webinar.ViewModels
 
         public void ShowNotification()
         {
-            INotification notification = NotificationService.CreatePredefinedNotification("WESP Control Center", "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit", string.Format("Tijd die eronder ook al staat: {0}", DateTime.Now));
+            INotification notification = NotificationService.CreatePredefinedNotification("WESP Control Center", "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit", $"Tijd die eronder ook al staat: {DateTime.Now}");
             notification.ShowAsync().ContinueWith(OnNotificationClicked, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -114,9 +115,10 @@ namespace Webinar.ViewModels
             }
         }
 
-        private async void LoadTracks() {
+        private async void LoadTracks()
+        {
             var tracks = TrackRepository.Instance.GetAll();
-            
+
             await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 foreach (var track in tracks)
@@ -124,8 +126,29 @@ namespace Webinar.ViewModels
                     Tracks.Add(TrackViewModel.Create(track));
                 }
             }));
-            
+
             IsWaitIndicatorVisible = false;
+        }
+
+        public bool CanDeleteRow(TrackViewModel currentItem)
+        {
+            return currentItem != null && currentItem.TrackId != 0;
+        }
+
+        public void DeleteRow(TrackViewModel currentItem)
+        {
+            if (MessageBoxService.ShowMessage(
+                $"Weet je zeker dat je de track {currentItem.Name}{(currentItem.Composer == null ? string.Empty : $" door {currentItem.Composer}")} wilt verwijderen?",
+                "Let op!",
+                MessageButton.YesNo,
+                MessageIcon.Question,
+                MessageResult.No) ==
+            MessageResult.Yes)
+            {
+                Tracks.Remove(currentItem);
+
+                TrackRepository.Instance.Delete(currentItem.TrackId);
+            }
         }
 
     }

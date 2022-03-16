@@ -14,7 +14,7 @@ namespace Webinar.ViewModels
 
         public virtual Brush BackgroundColor { get; set; }
 
-        public NavigationItemViewModel(string title, NavigationKey navigationKey)
+        protected NavigationItemViewModel(string title, NavigationKey navigationKey)
         {
             Title = title;
             NavigationKey = navigationKey;

@@ -9,9 +9,8 @@
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ViewModels="clr-namespace:Webinar.ViewModels"
-    xmlns:local="clr-namespace:Webinar"
     mc:Ignorable="d"
-    DataContext="{dxmvvm:ViewModelSource Type={x:Type ViewModels:ExtraViewModel}}">
+    d:DataContext="{d:DesignInstance Type=ViewModels:ExtraViewModel}">
     <!--<UserControl.Resources>
         <DataTemplate x:Key="CustomNotificationTemplate">
             <Border Background="DarkBlue" BorderThickness="1" BorderBrush="Black">
@@ -25,7 +24,7 @@
     </UserControl.Resources>-->
     <dxmvvm:Interaction.Behaviors>
         <dx:DXMessageBoxService />
-        
+
         <!--<dx:NotifyIconService Icon="{dx:DXImage 'Images/XAF/State_Validation_Warning_48x48.png'}" LeftClickCommand="{Binding ShowErrorMessageCommand}">
             <dx:NotifyIconService.ContextMenu>
                 <dxb:PopupMenu>
@@ -42,19 +41,19 @@
                 </dxb:PopupMenu>
             </dx:NotifyIconService.ContextMenu>
         </dx:NotifyIconService>-->
-        
+
         <!--<dxmvvm:NotificationService x:Name="ServiceWithCustomNotifications" CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"/>-->
-        <dxmvvm:NotificationService 
+        <dxmvvm:NotificationService
             x:Name="notificationService"
-            UseWin8NotificationsIfAvailable="True"
-            CreateApplicationShortcut="True"
             ApplicationId="WESP Control Center"
-            PredefinedNotificationTemplate="ShortHeaderAndTwoTextFields" />
+            CreateApplicationShortcut="True"
+            PredefinedNotificationTemplate="ShortHeaderAndTwoTextFields"
+            UseWin8NotificationsIfAvailable="True" />
     </dxmvvm:Interaction.Behaviors>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="20px"></RowDefinition>
+            <RowDefinition />
+            <RowDefinition Height="20px" />
         </Grid.RowDefinitions>
         <dxg:GridControl
             x:Name="grid"
@@ -71,18 +70,34 @@
                     PageSize="20"
                     ShowSearchPanelMode="Always"
                     ShowTotalSummary="False"
-                    VerticalScrollbarVisibility="Hidden" />
+                    VerticalScrollbarVisibility="Hidden">
+                    <dxg:TableView.RowCellMenuCustomizations>
+                        <!--Zie die zieke command binding: WERKT!!!-->
+                        <dxb:BarButtonItem
+                            Command="{Binding View.DataContext.DeleteRowCommand, Mode=OneWay}" 
+                            CommandParameter="{Binding CurrentItem, ElementName=grid}"
+                            Content="Verwijderen"
+                            Glyph="{dx:DXImage 'Images/Spreadsheet/DeleteSheetRows_16x16.png'}" />
+                        <dxb:BarButtonItem
+                            Command="{Binding View.DataContext.ShowNotificationCommand}"
+                            Content="Laat notificatie zien"
+                            Glyph="{dx:DXImage 'Images/XAF/Notifications.png'}" />
+                        <dxb:BarButtonItem
+                            Content="Cancel"
+                            Glyph="{dx:DXImage 'Images/Actions/Cancel_16x16.png'}" />
+                    </dxg:TableView.RowCellMenuCustomizations>
+                </dxg:TableView>
             </dxg:GridControl.View>
         </dxg:GridControl>
-        <dx:WaitIndicator 
-            DeferedVisibility="{Binding IsWaitIndicatorVisible}" 
-            Content="{Binding WaitIndicatorText}" 
-            HorizontalAlignment="Center" 
-            VerticalAlignment="Center" />
-        <Button 
-            Height="20px"
+        <dx:WaitIndicator
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{Binding WaitIndicatorText}"
+            DeferedVisibility="{Binding IsWaitIndicatorVisible}" />
+        <Button
             Grid.Row="1"
+            Height="20px"
             Command="{Binding ShowNotificationCommand}"
-            Content="Custom notificatie"/>
+            Content="Custom notificatie" />
     </Grid>
 </UserControl>
