@@ -60,7 +60,9 @@
             Grid.Row="0"
             AutoGenerateColumns="AddNew"
             EnableSmartColumnsGeneration="True"
-            ItemsSource="{Binding Tracks}">
+            SelectionMode="Row"
+            ItemsSource="{Binding Tracks}"
+            SelectedItems="{Binding SelectedTracks}">
             <dxg:GridControl.View>
                 <dxg:TableView
                     AllowColumnFiltering="True"
@@ -70,6 +72,7 @@
                     PageSize="20"
                     ShowSearchPanelMode="Always"
                     ShowTotalSummary="False"
+                    NavigationStyle="Row"
                     VerticalScrollbarVisibility="Hidden">
                     <dxg:TableView.RowCellMenuCustomizations>
                         <!--Zie die zieke command binding: WERKT!!!-->

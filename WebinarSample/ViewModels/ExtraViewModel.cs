@@ -4,6 +4,7 @@ using DevExpress.Mvvm.POCO;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Webinar.DAL;
@@ -14,6 +15,7 @@ namespace Webinar.ViewModels
     public class ExtraViewModel : INotifyPropertyChanged
     {
         public virtual ObservableCollection<TrackViewModel> Tracks { get; set; } = new ObservableCollection<TrackViewModel>();
+        public virtual ObservableCollection<TrackViewModel> SelectedTracks { get; set; } = new ObservableCollection<TrackViewModel>();
 
         public virtual string Title { get; set; }
 
@@ -137,17 +139,33 @@ namespace Webinar.ViewModels
 
         public void DeleteRow(TrackViewModel currentItem)
         {
+            if (SelectedTracks.Count > 0)
+            {
+                var list = SelectedTracks.ToList();
+                foreach (var track in list)
+                {
+                    DeleteTrack(track);
+                }
+            }
+            else
+            {
+                DeleteTrack(currentItem);
+            }
+        }
+
+        private void DeleteTrack(TrackViewModel track)
+        {
             if (MessageBoxService.ShowMessage(
-                $"Weet je zeker dat je de track {currentItem.Name}{(currentItem.Composer == null ? string.Empty : $" door {currentItem.Composer}")} wilt verwijderen?",
+                $"Weet je zeker dat je de track {track.Name}{(track.Composer == null ? string.Empty : $" door {track.Composer}")} wilt verwijderen?",
                 "Let op!",
                 MessageButton.YesNo,
                 MessageIcon.Question,
                 MessageResult.No) ==
             MessageResult.Yes)
             {
-                Tracks.Remove(currentItem);
+                Tracks.Remove(track);
 
-                TrackRepository.Instance.Delete(currentItem.TrackId);
+                TrackRepository.Instance.Delete(track.TrackId);
             }
         }
 
