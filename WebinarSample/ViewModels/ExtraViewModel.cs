@@ -2,9 +2,9 @@
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Webinar.DAL;
@@ -141,32 +141,40 @@ namespace Webinar.ViewModels
         {
             if (SelectedTracks.Count > 0)
             {
-                var list = SelectedTracks.ToList();
-                foreach (var track in list)
+                if (MessageBoxService.ShowMessage(
+                    "Weet je zeker dat je alle geselecteerde tracks wilt verwijderen?",
+                    "Let op!",
+                    MessageButton.YesNo,
+                    MessageIcon.Question,
+                    MessageResult.No) ==
+                MessageResult.Yes)
                 {
-                    DeleteTrack(track);
+                    var selectedTrackList = new List<TrackViewModel>(SelectedTracks);
+                    foreach (var track in selectedTrackList)
+                    {
+                        DeleteTrack(track);
+                    }
                 }
             }
             else
             {
-                DeleteTrack(currentItem);
+                if (MessageBoxService.ShowMessage(
+                    $"Weet je zeker dat je de track {currentItem.Name}{(currentItem.Composer == null ? string.Empty : $" door {currentItem.Composer}")} wilt verwijderen?",
+                    "Let op!",
+                    MessageButton.YesNo,
+                    MessageIcon.Question,
+                    MessageResult.No) ==
+                MessageResult.Yes)
+                {
+                    DeleteTrack(currentItem);
+                }
             }
         }
 
         private void DeleteTrack(TrackViewModel track)
         {
-            if (MessageBoxService.ShowMessage(
-                $"Weet je zeker dat je de track {track.Name}{(track.Composer == null ? string.Empty : $" door {track.Composer}")} wilt verwijderen?",
-                "Let op!",
-                MessageButton.YesNo,
-                MessageIcon.Question,
-                MessageResult.No) ==
-            MessageResult.Yes)
-            {
-                Tracks.Remove(track);
-
-                TrackRepository.Instance.Delete(track.TrackId);
-            }
+            Tracks.Remove(track);
+            TrackRepository.Instance.Delete(track.TrackId);
         }
 
     }
